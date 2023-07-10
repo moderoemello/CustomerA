@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Customer Loyalty Number</title>
+</head>
+<body>
+  <h1>Enter Customer Phone Number</h1>
+  <form id="loyaltyForm">
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="text" id="phoneNumber" name="phoneNumber" required>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById("loyaltyForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      var phoneNumber = document.getElementById("phoneNumber").value;
+      addLoyaltyNumberToReceipt(phoneNumber);
+    });
+
+    function addLoyaltyNumberToReceipt(phoneNumber) {
+      // Create the loyalty number action using korona_plugin_api
+      var loyaltyNumberAction = korona_plugin_api.setReceiptInfotexts({
+        infoTexts: ["Loyalty Number: " + phoneNumber]
+      });
+
+      // Add the action to the response
+      korona_plugin_api.response.startActions().addSale(loyaltyNumberAction);
+
+      // Print a success message or perform any other necessary actions
+      console.log("Loyalty number added to receipt: " + phoneNumber);
+    }
+  </script>
+  <script src="/korona-plugin-api.js"></script>
+</body>
+</html>
