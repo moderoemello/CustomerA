@@ -64,6 +64,40 @@
       background-color: #1976d2;
     }
   </style>
+  <script type="text/javascript" src="korona-plugin-api.js"></script>
+  <script>
+    korona_plugin_api.ready(function() {
+      korona_plugin_api.request.identifyAs("combase-plugin", "1.0.0");
+    });
+
+    var loyaltyNumberElement = document.getElementById("loyaltyNumber");
+    var loyaltyNumber = "";
+
+    function addToLoyaltyNumber(digit) {
+      loyaltyNumber += digit;
+      loyaltyNumberElement.textContent = "Loyalty Number: " + loyaltyNumber;
+    }
+
+    function clearLoyaltyNumber() {
+      loyaltyNumber = "";
+      loyaltyNumberElement.textContent = "Loyalty Number:";
+    }
+
+    function submitLoyaltyNumber() {
+      korona_plugin_api.ready(function() {
+        var loyaltyNumberAction = korona_plugin_api.response.addSale({
+          description: "Loyalty Number: " + loyaltyNumber,
+          infoTexts: ["Loyalty Number: " + loyaltyNumber]
+        });
+
+        korona_plugin_api.response.startActions().addSale(loyaltyNumberAction);
+
+        console.log("Loyalty number added to receipt: " + loyaltyNumber);
+        clearLoyaltyNumber();
+        window.close(); // Close the current window
+      });
+    }
+  </script>
 </head>
 <body>
   <div class="container">
@@ -86,35 +120,5 @@
       <button onclick="submitLoyaltyNumber()">Submit</button>
     </div>
   </div>
-
-  <script src="korona-plugin-api.js"></script>
-  <script>
-    var loyaltyNumberElement = document.getElementById("loyaltyNumber");
-    var loyaltyNumber = "";
-
-    function addToLoyaltyNumber(digit) {
-      loyaltyNumber += digit;
-      loyaltyNumberElement.textContent = "Loyalty Number: " + loyaltyNumber;
-    }
-
-    function clearLoyaltyNumber() {
-      loyaltyNumber = "";
-      loyaltyNumberElement.textContent = "Loyalty Number:";
-    }
-
-    function submitLoyaltyNumber() {
-      korona_plugin_api.ready(function() {
-        var loyaltyNumberAction = korona_plugin_api.setReceiptInfotexts({
-          infoTexts: ["Loyalty Number: " + loyaltyNumber]
-        });
-
-        korona_plugin_api.response.startActions().addSale(loyaltyNumberAction);
-
-        console.log("Loyalty number added to receipt: " + loyaltyNumber);
-        clearLoyaltyNumber();
-        window.close(); // Close the current window
-      });
-    }
-  </script>
 </body>
 </html>
