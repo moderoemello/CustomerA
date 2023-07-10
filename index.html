@@ -19,6 +19,9 @@
     <label for="phoneNumber">Phone Number:</label>
     <input type="text" id="phoneNumber" name="phoneNumber" required>
     <br>
+    <label for="loyaltyCardNumber">Loyalty Card Number:</label>
+    <input type="text" id="loyaltyCardNumber" name="loyaltyCardNumber">
+    <br>
     <div class="keypad">
       <button onclick="addToPhoneNumber(1)">1</button>
       <button onclick="addToPhoneNumber(2)">2</button>
@@ -41,6 +44,7 @@
 
   <script>
     var phoneNumberInput = document.getElementById("phoneNumber");
+    var loyaltyCardNumberInput = document.getElementById("loyaltyCardNumber");
 
     function addToPhoneNumber(digit) {
       phoneNumberInput.value += digit;
@@ -53,13 +57,15 @@
     document.getElementById("loyaltyForm").addEventListener("submit", function(event) {
       event.preventDefault();
       var phoneNumber = phoneNumberInput.value;
-      addLoyaltyNumberToReceipt(phoneNumber);
+      var loyaltyCardNumber = loyaltyCardNumberInput.value;
+      addLoyaltyNumberToReceipt(phoneNumber, loyaltyCardNumber);
     });
 
-    function addLoyaltyNumberToReceipt(phoneNumber) {
+    function addLoyaltyNumberToReceipt(phoneNumber, loyaltyCardNumber) {
       // Create the loyalty number action using korona_plugin_api
       var loyaltyNumberAction = korona_plugin_api.setReceiptInfotexts({
-        infoTexts: ["Loyalty Number: " + phoneNumber]
+        infoTexts: ["Loyalty Number: " + phoneNumber],
+        loyaltyCardNumber: loyaltyCardNumber
       });
 
       // Add the action to the response
@@ -67,6 +73,7 @@
 
       // Print a success message or perform any other necessary actions
       console.log("Loyalty number added to receipt: " + phoneNumber);
+      console.log("Loyalty card number: " + loyaltyCardNumber);
     }
   </script>
   <script src="/korona-plugin-api.js"></script>
