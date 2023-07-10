@@ -2,6 +2,16 @@
 <html>
 <head>
   <title>Customer Loyalty Number</title>
+  <style>
+    .keypad {
+      display: inline-block;
+    }
+    .keypad button {
+      width: 50px;
+      height: 50px;
+      margin: 5px;
+    }
+  </style>
 </head>
 <body>
   <h1>Enter Customer Phone Number</h1>
@@ -9,13 +19,40 @@
     <label for="phoneNumber">Phone Number:</label>
     <input type="text" id="phoneNumber" name="phoneNumber" required>
     <br>
+    <div class="keypad">
+      <button onclick="addToPhoneNumber(1)">1</button>
+      <button onclick="addToPhoneNumber(2)">2</button>
+      <button onclick="addToPhoneNumber(3)">3</button>
+      <br>
+      <button onclick="addToPhoneNumber(4)">4</button>
+      <button onclick="addToPhoneNumber(5)">5</button>
+      <button onclick="addToPhoneNumber(6)">6</button>
+      <br>
+      <button onclick="addToPhoneNumber(7)">7</button>
+      <button onclick="addToPhoneNumber(8)">8</button>
+      <button onclick="addToPhoneNumber(9)">9</button>
+      <br>
+      <button onclick="addToPhoneNumber(0)">0</button>
+      <button onclick="clearPhoneNumber()">Clear</button>
+    </div>
+    <br>
     <button type="submit">Submit</button>
   </form>
 
   <script>
+    var phoneNumberInput = document.getElementById("phoneNumber");
+
+    function addToPhoneNumber(digit) {
+      phoneNumberInput.value += digit;
+    }
+
+    function clearPhoneNumber() {
+      phoneNumberInput.value = "";
+    }
+
     document.getElementById("loyaltyForm").addEventListener("submit", function(event) {
       event.preventDefault();
-      var phoneNumber = document.getElementById("phoneNumber").value;
+      var phoneNumber = phoneNumberInput.value;
       addLoyaltyNumberToReceipt(phoneNumber);
     });
 
