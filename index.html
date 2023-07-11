@@ -87,6 +87,7 @@
     </div>
   </div>
 
+
   <script src="korona-plugin-api.js"></script>
   <script>
     var loyaltyNumberElement = document.getElementById("loyaltyNumber");
@@ -104,12 +105,7 @@
 
     function submitLoyaltyNumber() {
       korona_plugin_api.ready(function() {
-        var loyaltyNumberAction = korona_plugin_api.setReceiptInfotexts({
-          infoTexts: ["Loyalty Number: " + loyaltyNumber]
-        });
-
-        korona_plugin_api.response.startActions().addSale(loyaltyNumberAction);
-
+        korona_plugin_api.response.startActions().setLoyaltyCardNumber(loyaltyNumber);
         console.log("Loyalty number added to receipt: " + loyaltyNumber);
         clearLoyaltyNumber();
         window.close(); // Close the current window
