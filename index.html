@@ -28,6 +28,21 @@
     border: 1px solid #dddddd;
     border-radius: 4px;
   }
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    margin-bottom: 20px;
+  }
+  .keypad button {
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    cursor: pointer;
+  }
   .submit-btn {
     background-color: #4caf50;
     color: #ffffff;
@@ -55,6 +70,16 @@
     });
   };
 
+  function addToLoyaltyNumber(digit) {
+    var loyaltyNumberInput = document.getElementById("loyaltyNumber");
+    loyaltyNumberInput.value += digit;
+  }
+
+  function clearLoyaltyNumber() {
+    var loyaltyNumberInput = document.getElementById("loyaltyNumber");
+    loyaltyNumberInput.value = "";
+  }
+
   function addLoyaltyNumberToReceipt() {
     loyaltyCardNumber = document.getElementById("loyaltyNumber").value;
 
@@ -74,6 +99,19 @@
   <div class="container">
     <div class="input-container">
       <input type="text" id="loyaltyNumber" placeholder="Enter loyalty card number" required>
+    </div>
+    <div class="keypad">
+      <button onclick="addToLoyaltyNumber(1)">1</button>
+      <button onclick="addToLoyaltyNumber(2)">2</button>
+      <button onclick="addToLoyaltyNumber(3)">3</button>
+      <button onclick="addToLoyaltyNumber(4)">4</button>
+      <button onclick="addToLoyaltyNumber(5)">5</button>
+      <button onclick="addToLoyaltyNumber(6)">6</button>
+      <button onclick="addToLoyaltyNumber(7)">7</button>
+      <button onclick="addToLoyaltyNumber(8)">8</button>
+      <button onclick="addToLoyaltyNumber(9)">9</button>
+      <button onclick="clearLoyaltyNumber()">Clear</button>
+      <button onclick="addToLoyaltyNumber(0)">0</button>
     </div>
     <button class="submit-btn" onclick="addLoyaltyNumberToReceipt()">Submit</button>
   </div>
