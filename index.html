@@ -92,17 +92,21 @@
   <script>
     var loyaltyNumberElement = document.getElementById("loyaltyNumber");
     var loyaltyNumber = "";
-
+  
     function addToLoyaltyNumber(digit) {
+      console.log("addToLoyaltyNumber called with digit: " + digit);
       loyaltyNumber += digit;
       loyaltyNumberElement.textContent = "Loyalty Number: " + loyaltyNumber;
+      console.log("loyaltyNumber is now: " + loyaltyNumber);
     }
-
+  
     function clearLoyaltyNumber() {
+      console.log("clearLoyaltyNumber called");
       loyaltyNumber = "";
       loyaltyNumberElement.textContent = "Loyalty Number:";
+      console.log("loyaltyNumber cleared");
     }
-
+  
     function submitLoyaltyNumber() {
       console.log("submitLoyaltyNumber called");
       korona_plugin_api.ready(function() {
@@ -114,5 +118,6 @@
       });
     }
   </script>
+
 </body>
 </html>
