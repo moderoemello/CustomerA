@@ -104,7 +104,9 @@
     }
 
     function submitLoyaltyNumber() {
+      console.log("submitLoyaltyNumber called");
       korona_plugin_api.ready(function() {
+        console.log("korona_plugin_api is ready");
         korona_plugin_api.response.startActions().setLoyaltyCardNumber(loyaltyNumber);
         console.log("Loyalty number added to receipt: " + loyaltyNumber);
         clearLoyaltyNumber();
