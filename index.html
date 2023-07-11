@@ -1,120 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Add Loyalty Card Number to Receipt</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    text-align: center;
-  }
-  h1 {
-    color: #333333;
-    margin-top: 50px;
-  }
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 30px;
-  }
-  .input-container {
-    margin-bottom: 20px;
-  }
-  .input-container input {
-    width: 200px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #dddddd;
-    border-radius: 4px;
-  }
-  .keypad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-    margin-bottom: 20px;
-  }
-  .keypad button {
-    width: 60px;
-    height: 60px;
-    font-size: 20px;
-    background-color: #ffffff;
-    border: 1px solid #dddddd;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .submit-btn {
-    background-color: #4caf50;
-    color: #ffffff;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .debug {
-    margin-top: 50px;
-    font-family: Courier, monospace;
-    font-size: 14px;
-  }
-</style>
-<!-- KORONA.pos-Client API module -->
-<script type="text/javascript" src="korona-plugin-api.js"></script>
-<script type="text/javascript">
-  var loyaltyCardNumber;
-
-  korona_plugin_api.response.identifyAs("Loyalty Card Number", "1");
-  window.onload = function myOnLoadFunc() {
-    korona_plugin_api.ready(function myReadyFunc() {
-      document.getElementById("debug").innerHTML += "Adding loyalty card number to receipt <br />";
-    });
-  };
-
-  function addToLoyaltyNumber(digit) {
-    var loyaltyNumberInput = document.getElementById("loyaltyNumber");
-    loyaltyNumberInput.value += digit;
-  }
-
-  function clearLoyaltyNumber() {
-    var loyaltyNumberInput = document.getElementById("loyaltyNumber");
-    loyaltyNumberInput.value = "";
-  }
-
-  function addLoyaltyNumberToReceipt() {
-    loyaltyCardNumber = document.getElementById("loyaltyNumber").value;
-
-    korona_plugin_api.response.startActions().addSale({
-      recognitionCode: "receipt",
-      customData: {
-        loyaltyCardNumber: loyaltyCardNumber
-      }
-    });
-
-    korona_plugin_api.backToKorona();
-  }
-</script>
+  <title>Customer Loyalty Number</title>
+  <style>
+    .keypad {
+      display: inline-block;
+    }
+    .keypad button {
+      width: 50px;
+      height: 50px;
+      margin: 5px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Add Loyalty Card Number to Receipt</h1>
-  <div class="container">
-    <div class="input-container">
-      <input type="text" id="loyaltyNumber" placeholder="Enter loyalty card number" required>
-    </div>
+  <h1>Enter Customer Phone Number</h1>
+  <form id="loyaltyForm">
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="text" id="phoneNumber" name="phoneNumber" required>
+    <br>
     <div class="keypad">
-      <button onclick="addToLoyaltyNumber(1)">1</button>
-      <button onclick="addToLoyaltyNumber(2)">2</button>
-      <button onclick="addToLoyaltyNumber(3)">3</button>
-      <button onclick="addToLoyaltyNumber(4)">4</button>
-      <button onclick="addToLoyaltyNumber(5)">5</button>
-      <button onclick="addToLoyaltyNumber(6)">6</button>
-      <button onclick="addToLoyaltyNumber(7)">7</button>
-      <button onclick="addToLoyaltyNumber(8)">8</button>
-      <button onclick="addToLoyaltyNumber(9)">9</button>
-      <button onclick="clearLoyaltyNumber()">Clear</button>
-      <button onclick="addToLoyaltyNumber(0)">0</button>
+      <button onclick="addToPhoneNumber(1)">1</button>
+      <button onclick="addToPhoneNumber(2)">2</button>
+      <button onclick="addToPhoneNumber(3)">3</button>
+      <br>
+      <button onclick="addToPhoneNumber(4)">4</button>
+      <button onclick="addToPhoneNumber(5)">5</button>
+      <button onclick="addToPhoneNumber(6)">6</button>
+      <br>
+      <button onclick="addToPhoneNumber(7)">7</button>
+      <button onclick="addToPhoneNumber(8)">8</button>
+      <button onclick="addToPhoneNumber(9)">9</button>
+      <br>
+      <button onclick="addToPhoneNumber(0)">0</button>
+      <button onclick="clearPhoneNumber()">Clear</button>
     </div>
-    <button class="submit-btn" onclick="addLoyaltyNumberToReceipt()">Submit</button>
-  </div>
-  <pre id="debug" class="debug"></pre>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    var phoneNumberInput = document.getElementById("phoneNumber");
+
+    function addToPhoneNumber(digit) {
+      phoneNumberInput.value += digit;
+    }
+
+    function clearPhoneNumber() {
+      phoneNumberInput.value = "";
+    }
+
+    document.getElementById("loyaltyForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      var phoneNumber = phoneNumberInput.value;
+      addLoyaltyNumberToReceipt(phoneNumber);
+    });
+
+    function addLoyaltyNumberToReceipt(phoneNumber) {
+      // Create the loyalty number action using korona_plugin_api
+      var loyaltyNumberAction = korona_plugin_api.setReceiptInfotexts({
+        infoTexts: ["Loyalty Number: " + phoneNumber]
+      });
+
+      // Add the action to the response
+      korona_plugin_api.response.startActions().addSale(loyaltyNumberAction);
+
+      // Print a success message or perform any other necessary actions
+      console.log("Loyalty number added to receipt: " + phoneNumber);
+    }
+  </script>
+  <script src="/korona-plugin-api.js"></script>
 </body>
 </html>
