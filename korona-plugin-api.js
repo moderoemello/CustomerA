@@ -386,7 +386,19 @@ korona_plugin_api = new function() {
 			this.modified.notify();
 			return this;
 		};
-
+		
+		// Add new setLoyaltyCardNumber function
+		this.setLoyaltyCardNumber = function(paramObj) {
+			if (typeof paramObj === 'string')
+				paramObj = {loyaltyCardNumber: paramObj};
+			this.actions.push({
+				type: 'setLoyaltyCardNumberAction',
+				loyaltyCardNumber: paramObj.loyaltyCardNumber
+			});
+			this.modified.notify();
+			return this;
+		};
+		
 		this.switchButtonBadges = function(paramObj) {
 			if (Array.isArray(paramObj))
 				paramObj = {badges: paramObj};
